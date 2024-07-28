@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion Code Generator</title>
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, #ffcc00, #ff6600, #ff3300, #cc0000);
+            height: 100vh; /* 画面いっぱいに広げる */
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+        .result-container {
+            position: relative;
+            margin-top: 10px;
+        }
+        #result {
+            white-space: pre;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+            line-height: 1.2;
+            overflow-x: auto;
+            min-height: 100px; /* 結果の高さに合わせて調整 */
+        }
+        #copyButton {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #copyButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Accordion Code Generator</h2>
+    <form id="accordionForm">
+        <label for="id">ID Number</label>
+        <input type="text" id="id" required>
+
+        <label for="href">URL</label>
+        <input type="text" id="href" required>
+
+        <label for="label">テキスト</label>
+        <input type="text" id="label" required>
+
+        <button type="submit">生成</button>
+    </form>
+
+    <div class="result-container">
+        <pre id="result"></pre>
+        <button id="copyButton">コピー</button>
+    </div>
+
+    <script>
+        document.getElementById('accordionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('id').value;
+            const href = document.getElementById('href').value;
+            const label = document.getElementById('label').value;
+
+            const template = `<section class="accordion">
+    <input id="${id}" type="checkbox" class="toggle">
+    <label class="Label" for="${id}"><a href="${href}">${label}</a></label>
+    <div class="content content-container">
+    </div>`;
+
+            document.getElementById('result').textContent = template.trim();
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const resultText = document.getElementById('result').textContent;
+            navigator.clipboard.writeText(resultText);
+        });
+
+        // 初期表示用のダミーコードを設定
+        window.onload = function() {
+            document.getElementById('result').textContent = `<section class="accordion">
+    <input id="example-id" type="checkbox" class="toggle">
+    <label class="Label" for="example-id"><a href="example-url">例: ラベルテキスト</a></label>
+    <div class="content content-container">
+    </div>`;
+        };
+    </script>
+</body>
+</html>
